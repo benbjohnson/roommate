@@ -84,6 +84,18 @@ func (tx *Tx) Room(id int) *Room {
 	return r
 }
 
+// Rooms retrieves all the rooms in the database.
+func (tx *Tx) Rooms() []*Room {
+	var a []*Room
+	tx.Bucket([]byte("Rooms")).ForEach(func(_, v []byte) error {
+		r := &Room{}
+		_ = json.Unmarshal(v, r)
+		a = append(a, r)
+		return nil
+	})
+	return a
+}
+
 // SaveRoom persist a room to the database.
 func (tx *Tx) SaveRoom(r *Room) error {
 	if r == nil {
@@ -93,6 +105,12 @@ func (tx *Tx) SaveRoom(r *Room) error {
 	}
 	b, _ := json.Marshal(r)
 	return tx.Bucket([]byte("Rooms")).Put(itob(r.ID), b)
+}
+
+// DeleteRoom removes a room from the database.
+func (tx *Tx) DeleteRoom(id int) error {
+	// TODO(benbjohnson): Delete all reservations too.
+	return tx.Bucket([]byte("Rooms")).Delete(itob(id))
 }
 
 // Reservation retrieves a reservation by id.

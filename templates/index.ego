@@ -1,0 +1,14 @@
+<%! func (t *Template) Index(w io.Writer, rooms []*Room) error %>
+
+<html>
+<% t.Head(w) %>
+
+<body>
+  <h1>Roommate</h1>
+
+  <h2>Rooms</h2>
+  <% for _, r := range rooms { %>
+    <li><a href="/rooms/<%= r.ID %>"><%= r.Name %></a></li>
+  <% } %>
+</body>
+</html>

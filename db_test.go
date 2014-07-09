@@ -11,7 +11,7 @@ import (
 )
 
 // Ensure that a user can be saved and retrieved.
-func TestTx_SaveUser(t *testing.T) {
+func TestTx_User(t *testing.T) {
 	db := NewTestDB()
 	defer db.Close()
 	db.Update(func(tx *Tx) error {
@@ -25,7 +25,7 @@ func TestTx_SaveUser(t *testing.T) {
 }
 
 // Ensure that a room can be saved and retrieved.
-func TestTx_SaveRoom(t *testing.T) {
+func TestTx_Room(t *testing.T) {
 	db := NewTestDB()
 	defer db.Close()
 	db.Update(func(tx *Tx) error {
@@ -38,8 +38,28 @@ func TestTx_SaveRoom(t *testing.T) {
 	})
 }
 
+// Ensure that all rooms can be retrieved.
+func TestTx_Rooms(t *testing.T) {
+	db := NewTestDB()
+	defer db.Close()
+	db.Update(func(tx *Tx) error {
+		ok(t, tx.SaveRoom(&Room{ID: 1, Name: "room 1"}))
+		ok(t, tx.SaveRoom(&Room{ID: 2, Name: "room 2"}))
+		ok(t, tx.SaveRoom(&Room{ID: 3, Name: "room 3"}))
+		return nil
+	})
+	db.View(func(tx *Tx) error {
+		rooms := tx.Rooms()
+		equals(t, 3, len(rooms))
+		equals(t, "room 1", rooms[0].Name)
+		equals(t, "room 2", rooms[1].Name)
+		equals(t, "room 3", rooms[2].Name)
+		return nil
+	})
+}
+
 // Ensure that a reservation can be saved and retrieved.
-func TestTx_SaveReservation(t *testing.T) {
+func TestTx_Reservation(t *testing.T) {
 	db := NewTestDB()
 	defer db.Close()
 	db.Update(func(tx *Tx) error {

@@ -1,0 +1,17 @@
+<%! func (t *RoomTemplate) Show(w io.Writer, r *Room) error %>
+
+<html>
+<% t.Head(w) %>
+
+<body>
+  <h1>Roommate</h1>
+
+  <h2><%= r.Name %></h2>
+
+  <p>
+    <a href="/rooms">View all rooms</a> |
+    <a href="/rooms/<%= r.ID %>/edit">Edit room</a> |
+    <a href="/rooms/<%= r.ID %>/delete">Delete room</a>
+  </p>
+</body>
+</html>

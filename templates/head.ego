@@ -1,0 +1,5 @@
+<%! func (t *Template) Head(w io.Writer) error %>
+
+<head>
+<title>Roommate</title>
+</head>
