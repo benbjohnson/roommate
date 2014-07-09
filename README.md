@@ -1,5 +1,5 @@
-Roommate
---------
+Roommate ![Project status](http://img.shields.io/status/experimental.png?color=red)
+========
 
 Roommate is an open source conference room reservation system.
 
